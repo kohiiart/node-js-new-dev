@@ -1,10 +1,12 @@
 [
-  { 
-    "nome": "bruno", 
-    "sobrenome": "fontana" 
+  {
+    "name": "eduardo",
+    "lastName": "Fontana",
+    "age": "20"
   },
   {
-    "nome": "joaquina",
-    "sobrenome": "pe de fejao"
+    "name": "eduardo",
+    "lastName": "Fontana",
+    "age": "20"
   }
 ]
