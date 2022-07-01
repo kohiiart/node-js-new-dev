@@ -6,14 +6,24 @@ let users = require('./users.json');
 
 const getUsers = (request, response) => {
   const { name, lastName, age, remove } = URL.parse(request.url, true).query;
-  
+  let message = '';
+
   if (name) {    
+    const user = {
+      name, lastName, age
+    }
+
     if (remove) {
+      message = 'Registro removido com sucesso';
+      const found = users.filter(user => String(user.name) === String(name));
       users = users.filter(user => String(user.name) !== String(name));
-    } else {
-      const user = {
-        name, lastName, age
+
+      // valida se não encontrar usuário
+      if (!found.length) {
+        return response.end('Usuário não encontrado!');
       }
+    } else {
+      message = 'Registro salvo com sucesso';
       users.push(user);
     }
       
@@ -24,11 +34,16 @@ const getUsers = (request, response) => {
         if (error) return;
 
         console.log('Salvou o registro com sucesso');
+        response.end(JSON.stringify({
+          status: message,
+          data: user,
+        }));
       }
     );
+  } else {
+    response.end(JSON.stringify(users)); 
   }
 
-  response.end(JSON.stringify(users));
 }
 
 const server = http.createServer(getUsers);
