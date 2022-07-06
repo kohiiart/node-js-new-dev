@@ -7,7 +7,7 @@
     const url = request.url;
 
     let file = url === '/' ? 'index.html' : request.url;
-
+    
     if (url === '/cadastro') {
       file = 'registry.html'
     }
@@ -17,7 +17,10 @@
     fs.readFile(
       filePath,
       (error, content) => {
-        if (error) { return error; }
+        if (error) { 
+          response.writeHead(404);
+          return response.end(`Error: ${error}`) 
+        }
 
         return response.end(content);
       }

@@ -1,11 +1,12 @@
-
 const exemplo = 'EXEMPLO MAIS LOCO DO MUNDO';
 
 // Função async 
 const entregouPedidoCozinha = async () => {
   const response = await fetch('http://localhost:3001');
 
-  console.log('O GARÇOM O PEDIDO FICOU PRONTO VEM K PEGAR: ', await response.json());
+  console.log(
+    'O GARÇOM O PEDIDO FICOU PRONTO VEM K PEGAR: ', await response.json()
+  );
 }
 
 console.log('entregou pedido fila cozinha (adicionou no event loop');
