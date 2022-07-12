@@ -26,20 +26,56 @@ exports.create = async (request, response) => {
   }
 }
 
-exports.getById = (request, response) => {
-  const params = request.params;
-  console.log('Query params authors', params);
-  return response
-    .status(200)
-    .send(`Acessando recurso /authors METHOD: GET BY ID ${params.id}`);
+exports.getById = async (request, response) => {
+  try {
+    const params = request.params;
+
+    const [previousAuthor] = await database
+      .select('*')
+      .from('authors')
+      .where({ id: params.id })
+      .limit(1);
+
+    if (!previousAuthor) {
+      return response.status(404) // recurso não encontrado
+        .send(`O registro com id: ${params.id} não foi encontrado!`);
+    }
+    return response
+      .status(200)
+      .send({ data: previousAuthor });
+  } catch (error) {// tratamento de exceção, trata os erros que ocorrem
+    return response.status(500).send({ error: error?.message || e });
+  }
 }
 
-exports.deleteById = (request, response) => {
-  const params = request.params;
-  console.log('Query params authors', params);
-  return response
-    .status(200)
-    .send(`Acessando recurso /authors METHOD: DELETE BY ID ${params.id}`);
+exports.deleteById = async (request, response) => {
+  try {
+    const params = request.params;
+
+    const [previousAuthor] = await database
+      .select('*')
+      .from('authors')
+      .where({ id: params.id })
+      .limit(1);
+
+    if (!previousAuthor) {
+      return response.status(404) // recurso não encontrado
+        .send(`O registro com id: ${params.id} não foi encontrado!`);
+    }
+
+    const nextAuthor = request.body;
+
+    await database
+      .delete({ name: nextAuthor.name })
+      .from('authors')
+      .where({ id: previousAuthor.id });
+
+    return response
+      .status(200)
+      .send({ status: 'Registro removido com sucesso' });
+  } catch (error) {// tratamento de exceção, trata os erros que ocorrem
+    return response.status(500).send({ error: error?.message || e });
+  }
 }
 
 exports.put = async (request, response) => {
