@@ -1,14 +1,16 @@
 const database = require('../databases/knex');
+const logger = require('../utils/logger');
 
 exports.findAll = async (request, response) => {
   try {
     const sql = await database.select('*').from('authors');
-
+    console.log(banana);
     return response.status(200)
       .send({
         authors: sql
       });
   } catch (error) {
+    logger(error.message);
     return response.status(500)
       .send({ error: error?.message || e });
   }
