@@ -4,7 +4,6 @@ const logger = require('../utils/logger');
 exports.findAll = async (request, response) => {
   try {
     const sql = await database.select('*').from('authors');
-    console.log(banana);
     return response.status(200)
       .send({
         authors: sql
@@ -54,23 +53,21 @@ exports.deleteById = async (request, response) => {
   try {
     const params = request.params;
 
-    const [previousAuthor] = await database
+    const [author] = await database
       .select('*')
       .from('authors')
       .where({ id: params.id })
       .limit(1);
 
-    if (!previousAuthor) {
+    if (!author) {
       return response.status(404) // recurso não encontrado
         .send(`O registro com id: ${params.id} não foi encontrado!`);
     }
 
-    const nextAuthor = request.body;
-
     await database
-      .delete({ name: nextAuthor.name })
+      .delete()
       .from('authors')
-      .where({ id: previousAuthor.id });
+      .where({ id: author.id });
 
     return response
       .status(200)
