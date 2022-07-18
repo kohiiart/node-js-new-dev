@@ -1,18 +1,11 @@
 const knex = require('../databases/knex');
+const fieldValidator = require('../utils/FieldValidator');
 
 exports.create = async (req, res) => {
-  const fieldsRequired = ['title', 'description'];
   try {
     const course = req.body;
 
-    const attrs = Object.keys(course);
-
-    const invalidFields = [];
-    attrs.forEach(attr => {
-      if (!fieldsRequired.includes(attr)) {
-        invalidFields.push(attr)
-      }
-    });
+    const invalidFields = fieldValidator(course, ['title', 'description']);
 
     if (invalidFields.length) {
       return res.status(400).send({ 
