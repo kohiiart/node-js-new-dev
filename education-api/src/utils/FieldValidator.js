@@ -1,9 +1,9 @@
-const fieldValidator = (body = {}, requiredFields = []) => {
+const fieldValidator = (body = {}, validFields = []) => {
   const attrs = Object.keys(body);
 
   const invalidFields = [];
   attrs.forEach(attr => {
-    if (!requiredFields.includes(attr)) {
+    if (!validFields.includes(attr)) {
       invalidFields.push(attr)
     }
   });
