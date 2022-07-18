@@ -9,7 +9,6 @@ exports.create = async (req, res) => {
 
     const invalidFields = [];
     attrs.forEach(attr => {
-      console.log('percorrendo attrs', attr);
       if (!fieldsRequired.includes(attr)) {
         invalidFields.push(attr)
       }
