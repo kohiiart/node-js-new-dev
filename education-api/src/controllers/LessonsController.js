@@ -14,16 +14,17 @@ exports.create = async (req, res) => {
       });
     }
 
+    // adiciona validação de campos obrigatórios
     const requiredFields = ['title', 'videoId', 'instructorId', 'courseId'];
 
     const requiredFieldsExists = [];
-    Object.keys(req.body).forEach(attr => {
-      if (!requiredFields.includes(attr)) {
-        requiredFieldsExists.push(attr);
+    requiredFields.forEach(requiredField => {
+      if (!req.body[requiredField]) {
+        requiredFieldsExists.push(requiredField);
       }
     });
 
-    if (requiredFields.length && requiredFieldsExists.length) {
+    if (requiredFieldsExists.length) {
       return res.status(400).send({
         status: 'required fields',
         requiredFields: requiredFieldsExists
