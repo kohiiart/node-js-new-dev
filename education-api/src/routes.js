@@ -15,6 +15,10 @@ routes.post('/instructors', InstructorsController.create);
 
 routes.post('/lessons', LessonsController.create);
 
+//COURSES
+routes.get('/courses', CoursesController.find)
+routes.get('/courses/:id', CoursesController.findById)
+
 module.exports = routes;
 
 // lessons
