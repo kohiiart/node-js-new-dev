@@ -18,6 +18,14 @@ routes.post('/lessons', LessonsController.create);
 //COURSES
 routes.get('/courses', CoursesController.find)
 routes.get('/courses/:id', CoursesController.findById)
+routes.patch('/courses/:id', CoursesController.update)
+
+//LESSONS
+routes.get('/lessons/:id', LessonsController.findById)
+routes.patch('/lessons/:id', LessonsController.update)
+
+//INSTRUCTORS
+routes.patch('/instructors/:id', InstructorsController.update)
 
 module.exports = routes;
 
