@@ -1,1 +1,0 @@
-banana is not definedselect * from `books` - SQLITE_ERROR: no such table: booksselect * from `books` - SQLITE_ERROR: no such table: booksselect `books`.`id`, `books`.`title`, `author`.`name` from `books` inner join `authors` on `authors`.`id` = `books`.`authorId` - SQLITE_ERROR: no such column: author.name
