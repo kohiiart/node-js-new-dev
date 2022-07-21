@@ -157,3 +157,30 @@ exports.update = async (req, res) =>{
     return res.status(500).send({ error: e.message || e }); 
   }
 }
+
+exports.delete = async (req, res) =>{
+  try {
+    const { id } = req.params;
+
+    const lesson = await knex.select(['id']).where({ id }).first();
+
+    if(!lesson){
+      return res.status(404).send({status: `Aula de ID ${id} não encontrado`})
+    }
+
+    await knex.delete().from('lessons').where({id : lesson.id})
+    return res.status(204).send({status: 'Registro removido com sucesso!'})
+  } catch (e) {
+    return res.status(500).send({error: e.message || e})
+  }
+}
+
+exports.find = async (req,res) =>{
+  try {
+    const lessons = await knex.select('*').from('lessons')
+
+    return res.status(200).send({lessons})
+  } catch (e) {
+    return res.status(500).send({error: e.message || e})
+  }
+}

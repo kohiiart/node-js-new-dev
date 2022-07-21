@@ -47,3 +47,48 @@ exports.update = async (req, res) =>{
     return res.status(500).send({error: e.message || e})
   }
 }
+
+exports.delete = async (req, res) =>{
+  try {
+    const { id } = req.params;
+
+    const instructor = await knex.select(['id']).where({ id }).first().from('instructors');
+
+    if(!instructor){
+      return res.status(404).send({status: `Professor de ID ${ id } não encontrado`})
+    }
+
+    await knex.delete().from('instructors').where({ id : instructor.id })
+    return res.status(204).send({status: 'Registro removido com sucesso!'})
+  } catch (e) {
+    return res.status(500).send({error: e.message || e})
+  }
+}
+
+exports.find = async (req,res) =>{
+  try {
+    const instructors = await knex.select('*').from('instructors')
+
+    return res.status(200).send({instructors})
+  } catch (e) {
+    return res.status(500).send({error: e.message || e})
+  }
+}
+
+exports.findById = async (req, res) =>{
+  try {
+    const id = req.params.id;
+  
+    const instructor = await knex.select('*').from('instructors').where({id}).first();
+  
+    if(!instructor){
+      return res.status(404).send({status :`Professor de ID: ${id} não foi encontrado!`})
+    }
+  
+    return res.status(200).send({
+      ...instructor
+    })
+  } catch (e) {
+    return res.status(500).send({error: e.message || e})
+  }
+  }
